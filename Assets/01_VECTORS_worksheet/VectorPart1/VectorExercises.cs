@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class VectorExercises : MonoBehaviour
@@ -10,22 +11,23 @@ public class VectorExercises : MonoBehaviour
 
     private Vector2 startPt;
     private Vector2 endPt;
-    private Vector3 endPoint;
 
     public float GameWidth, GameHeight;
     private float minX, minY, maxX, maxY;
-    //hi
+    
     private void Start()
     {
         if (Q2a)
-            Question2a();
+            //Question2a();
         if (Q2b)
-            Question2b(20);
+            CalculateGameDimensions();
+            //Question2b(20);
         if (Q2d)
-            Question2d();
+            CalculateGameDimensions();
+            //Question2d();
         if (Q2e)
             CalculateGameDimensions();
-            Question2e(20);
+            //Question2e(20);
         if (Q3a)
             Question3a();
         if (Q3b)
@@ -93,19 +95,12 @@ public class VectorExercises : MonoBehaviour
     {
         for (int i = 0; i < n; i++)
         {
-            startPt = new Vector2(
-                Random.Range(-maxX, maxX),
-                Random.Range(-maxY, maxY));
-
-            endPoint = new Vector3(
-                Random.Range(-maxX, maxX),
-                Random.Range(-maxY, maxY),
-                Random.Range(-minY, minY));
-
-
             DebugExtension.DebugArrow(
                 new Vector3(0, 0, 0),
-                endPoint,
+                new Vector3(
+                Random.Range(-maxX, maxX),
+                Random.Range(-maxY, maxY),
+                Random.Range(-minY, minY)),
                 Color.white,
                 60f);
 
@@ -113,22 +108,33 @@ public class VectorExercises : MonoBehaviour
 
     }
 
+
     public void Question3a()
     {
         HVector2D a = new HVector2D(3, 5);
-        //HVector2D b = // Your code here;
-        //HVector2D c = // Your code here;
+        HVector2D b = new HVector2D(-4, 2);
+        HVector2D c = a + b;
+ 
+        //first code
+        //DebugExtension.DebugArrow(Vector3.zero, a.ToUnityVector3(), Color.red, 60f);
+        //DebugExtension.DebugArrow(Vector3.zero, b.ToUnityVector3(), Color.green, 60f);
+        //DebugExtension.DebugArrow(Vector3.zero, c.ToUnityVector3(), Color.white, 60f);
+        //DebugExtension.DebugArrow(a.ToUnityVector3(),b.ToUnityVector3(), Color.green, 60f);
 
+        float magA = a.Magnitude();
+        Debug.Log("Magnitude of a = " + magA.ToString("F2"));
+        float magB = b.Magnitude();
+        Debug.Log("Magnitude of b = " + magB.ToString("F2"));
+        float magC = c.Magnitude();
+        Debug.Log("Magnitude of c = " + magC.ToString("F2"));
+
+        //modified code
         DebugExtension.DebugArrow(Vector3.zero, a.ToUnityVector3(), Color.red, 60f);
-        // Your code here
-        // ...
-
-        // Your code here
-
-        //Debug.Log("Magnitude of a = " + // Your code here.ToString("F2"));
-        // Your code here
-        // ...
+        DebugExtension.DebugArrow(Vector3.zero, b.ToUnityVector3(), Color.green, 60f);
+        DebugExtension.DebugArrow(Vector3.zero, (a-b).ToUnityVector3(), Color.white, 60f);
+        DebugExtension.DebugArrow(a.ToUnityVector3(), -b.ToUnityVector3(), Color.green, 60f);
     }
+
 
     public void Question3b()
     {
