@@ -138,15 +138,28 @@ public class VectorExercises : MonoBehaviour
 
     public void Question3b()
     {
-        // Your code here
-        // ...
+        HVector2D a = new HVector2D(3, 5);
+        HVector2D b = a * 2;
+        Vector3 offset = new Vector3(1, 0, 0);
 
+        //first code
         //DebugExtension.DebugArrow(Vector3.zero, a.ToUnityVector3(), Color.red, 60f);
-        // Your code here
+        //DebugExtension.DebugArrow(offset, b.ToUnityVector3(), Color.green, 60f);
+
+        //modified code
+        DebugExtension.DebugArrow(Vector3.zero, a.ToUnityVector3(), Color.red, 60f);
+        DebugExtension.DebugArrow(offset, (a/2).ToUnityVector3(), Color.green, 60f);
     }
 
     public void Question3c()
     {
+        HVector2D a = new HVector2D(3, 5);
+        DebugExtension.DebugArrow(Vector3.zero, a.ToUnityVector3(), Color.red, 60f);
+
+        Vector3 offset = new Vector3(1, 0, 0);
+        a.Normalize();
+        Debug.Log("Magnitude of a = " + a.Magnitude().ToString("F2"));
+        DebugExtension.DebugArrow(offset, a.ToUnityVector3(), Color.green, 60f);
 
     }
 
@@ -156,13 +169,15 @@ public class VectorExercises : MonoBehaviour
         HVector2D b = new HVector2D(6, 0);
         HVector2D c = new HVector2D(2, 2);
 
-        //HVector2D v1 = b - a;
-        // Your code here
+        HVector2D v1 = b - a;
+        HVector2D v2 = c - a;
 
-        //HVector2D proj = // Your code here
+        v1.DotProduct(v2);
 
-        //DebugExtension.DebugArrow(a.ToUnityVector3(), b.ToUnityVector3(), Color.red, 60f);
-        //DebugExtension.DebugArrow(a.ToUnityVector3(), c.ToUnityVector3(), Color.yellow, 60f);
-        //DebugExtension.DebugArrow(a.ToUnityVector3(), proj.ToUnityVector3(), Color.white, 60f);
+        HVector2D proj = v2.Projection(v1);
+
+        DebugExtension.DebugArrow(a.ToUnityVector3(), b.ToUnityVector3(), Color.red, 60f);
+        DebugExtension.DebugArrow(a.ToUnityVector3(), c.ToUnityVector3(), Color.yellow, 60f);
+        DebugExtension.DebugArrow(a.ToUnityVector3(), proj.ToUnityVector3(), Color.white, 60f);
     }
 }
