@@ -18,16 +18,16 @@ public class VectorExercises : MonoBehaviour
     private void Start()
     {
         if (Q2a)
-            //Question2a();
+            Question2a();
         if (Q2b)
             CalculateGameDimensions();
-            //Question2b(20);
+            Question2b(20);
         if (Q2d)
             CalculateGameDimensions();
-            //Question2d();
+            Question2d();
         if (Q2e)
             CalculateGameDimensions();
-            //Question2e(20);
+            Question2e(20);
         if (Q3a)
             Question3a();
         if (Q3b)
