@@ -22,6 +22,7 @@ public class Mario : MonoBehaviour
     {
         //find gravity vec
         gravityDir = planet.position - transform.position;
+        //achieved by rotating the gravity vector
         moveDir = new Vector3(gravityDir.y, -gravityDir.x);
         //normalize & flip move vec -> clockwise
         moveDir = moveDir.normalized * -1f;
@@ -35,12 +36,17 @@ public class Mario : MonoBehaviour
         rb.AddForce(gravityNorm * gravityStrength);
 
         //for astronaut sprite to rotate to look like it is standing on the surface of the moon.
-        //float angle = Vector3.SignedAngle(,Vector3.forward);
+        //signed angle(where astronaut is looking, the vector to reach, axis to rotate around(z-axis))
+        float angle = Vector3.SignedAngle(Vector3.right,moveDir,Vector3.forward);
 
-        //rb.MoveRotation(Quaternion.Euler());
+        //how much to rotate around the z-axis
+        rb.MoveRotation(Quaternion.Euler(0, 0, angle));
 
-        //DebugExtension.DebugArrow();
-        //DebugExtension.DebugArrow();
+        //arrows for gravity vector
+        //start position(astronaut), direction pointing in
+        DebugExtension.DebugArrow(transform.position,gravityDir, Color.red);
+        //arrows for move direction vector
+        DebugExtension.DebugArrow(transform.position,moveDir,Color.blue);
     }
 }
 
