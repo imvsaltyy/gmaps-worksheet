@@ -6,6 +6,8 @@ public class Player : MonoBehaviour
 {
     public bool IsCaptain = true;
     public Player OtherPlayer;
+    
+    
 
     //float Magnitude(Vector3 vector)
     //{
@@ -66,11 +68,15 @@ public class Player : MonoBehaviour
     //    // Your code here
     //}
 
+    //arrow drawn at every frame
     void Update()
     {
         if (IsCaptain)
         {
-            //float angle = // Your code here
+            //arrow drawn (captain's position, captain to player1 direction vector)
+            DebugExtension.DebugArrow(transform.position, (OtherPlayer.transform.position - transform.position), Color.black);
+
+            //float angle = 
             //Debug.Log(angle);
         }
     }
