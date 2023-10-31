@@ -50,11 +50,11 @@ public class HMatrix2D
     {
         HMatrix2D result = new HMatrix2D();
 
-        for (int row = 0; row < 3; row++)
+        for (int y = 0; y < 3; y++)
         {
-            for (int col = 0; col < 3; col++)
+            for (int x = 0; x < 3; x++)
             {
-                result.Entries[row, col] = left.Entries[row, col] + right.Entries[row, col];
+                result.Entries[y, x] = left.Entries[y, x] + right.Entries[y, x];
             }
         }
 
