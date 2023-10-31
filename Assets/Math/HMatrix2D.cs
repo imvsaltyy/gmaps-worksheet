@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class HMatrix2D
 {
@@ -8,7 +9,7 @@ public class HMatrix2D
 
     public HMatrix2D()
     {
-        // your code here
+        
     }
 
     public HMatrix2D(float[,] multiArray)
@@ -45,26 +46,60 @@ public class HMatrix2D
         //shld be 9 rows
     }
 
-    //public static HMatrix2D operator +(HMatrix2D left, HMatrix2D right)
-    //{
-    //    //return new HMatrix2D (left , right);
-    //}
+    public static HMatrix2D operator +(HMatrix2D left, HMatrix2D right)
+    {
+        HMatrix2D result = new HMatrix2D();
 
-    //public static HMatrix2D operator -(HMatrix2D left, HMatrix2D right)
-    //{
-    //    return // your code here
-    //}
+        for (int row = 0; row < 3; row++)
+        {
+            for (int col = 0; col < 3; col++)
+            {
+                result.Entries[row, col] = left.Entries[row, col] + right.Entries[row, col];
+            }
+        }
 
-    //public static HMatrix2D operator *(HMatrix2D left, float scalar)
-    //{
-    //    return // your code here
-    //}
+        return result;
+    }
 
-    //// Note that the second argument is a HVector2D object
-    ////
+    public static HMatrix2D operator -(HMatrix2D left, HMatrix2D right)
+    {
+        HMatrix2D result = new HMatrix2D();
+
+        for (int y = 0; y< 3; y++)
+        {
+            for (int x = 0; x < 3; x++)
+            {
+                result.Entries[y, x] = left.Entries[y, x] - right.Entries[y, x];
+            }
+        }
+
+        return result;
+    }
+
+    public static HMatrix2D operator *(HMatrix2D left, float scalar)
+    {
+        HMatrix2D result = new HMatrix2D();
+
+        for (int y = 0; y < 3; y++)
+        {
+            for (int x = 0; x < 3; x++)
+            {
+                result.Entries[y, x] = left.Entries[y, x] * scalar;
+            }
+        }
+
+        return result;
+    }
+
+    //Note that the second argument is a HVector2D object
+
     //public static HVector2D operator *(HMatrix2D left, HVector2D right)
     //{
-    //    return // your code here
+    //    return new HVector2D
+    //    (
+    //        left.Entries[0, 0] * right.x, left.Entries[0, 1],
+    //        left.Entries[1, 0] * right.x, left.Entries[1, 1]
+    //    );
     //}
 
     //// Note that the second argument is a HMatrix2D object
@@ -91,15 +126,23 @@ public class HMatrix2D
     //);
     //}
 
-    //public static bool operator ==(HMatrix2D left, HMatrix2D right)
-    //{
-    //    // your code here
-    //}
+    public static bool operator ==(HMatrix2D left, HMatrix2D right)
+    {
+        for (int y = 0; y < 3; y++)
+            for (int x = 0; x < 3; x++)
+                if (left.Entries[y, x] != right.Entries[y, x])
+                    return false;
+        return true;
+    }
 
-    //public static bool operator !=(HMatrix2D left, HMatrix2D right)
-    //{
-    //    // your code here
-    //}
+    public static bool operator !=(HMatrix2D left, HMatrix2D right)
+    {
+        for (int y = 0; y < 3; y++)
+            for (int x = 0; x < 3; x++)
+                if (left.Entries[y, x] == right.Entries[y, x])
+                    return false;
+        return true;
+    }
 
     //public override bool Equals(object obj)
     //{
