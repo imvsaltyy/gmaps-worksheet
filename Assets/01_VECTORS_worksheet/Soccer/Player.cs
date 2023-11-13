@@ -6,8 +6,11 @@ public class Player : MonoBehaviour
 {
     public bool IsCaptain = true;
     public Player OtherPlayer;
-    
-    
+
+    private Vector3 capToP1;
+    private Vector3 capNorm;
+
+
 
     //float Magnitude(Vector3 vector)
     //{
@@ -75,9 +78,26 @@ public class Player : MonoBehaviour
         {
             //arrow drawn (captain's position, captain to player1 direction vector)
             DebugExtension.DebugArrow(transform.position, (OtherPlayer.transform.position - transform.position), Color.black);
+            //arrow drawn (captain's position, normalised forward vector)
+            DebugExtension.DebugArrow(transform.position, transform.forward, Color.blue);
 
-            //float angle = 
-            //Debug.Log(angle);
+            //vectors
+            capToP1 = OtherPlayer.transform.position - transform.position;
+            capNorm = transform.forward;
+
+            //dotProduct
+            float dotProduct = Vector3.Dot(capToP1,capNorm);
+
+            //magnitude of vectors
+            float magCapToP1 = capToP1.magnitude;
+            float magCapNorm = capNorm.magnitude;
+
+            //formula to find angle
+            float angle = Mathf.Acos(dotProduct / (magCapToP1 * magCapNorm));
+
+            //radians to degrees
+            angle *= Mathf.Rad2Deg;
+            Debug.Log(angle);
         }
     }
 }
