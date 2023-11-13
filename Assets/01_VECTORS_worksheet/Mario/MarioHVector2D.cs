@@ -39,7 +39,23 @@ public class MarioHVector2D : MonoBehaviour
         //for astronaut sprite to rotate to look like it is standing on the surface of the moon.
         //new HVector2D(1, 0) = Vector3.right
         //moveDir is in HVector2D so don't need to change.
+
         float angle = new HVector2D(1, 0).FindAngle(moveDir);
+        Debug.Log("gravityDir.x: " + gravityDir.x);
+        Debug.Log("angle before adjustment: " + angle);
+        
+        //gravityDir.x = horizontal distance, which is the direction of the vector
+        //checks when gravityDir.x is -ve = direction is facing towards the negative x-axis(left side of the astronaut)
+        if (gravityDir.x < 0)
+        {
+            //flip the angle to -ve
+            //note: this is to ensure that the astronaut rotates in the direction that aligns with the vector's direction
+            //basically, angle and vector are in the same quadrant
+            angle *= -1f;
+        }
+
+        Debug.Log("adjusted angle: " + angle);
+
         //radians to degrees
         angle *= Mathf.Rad2Deg;
 
