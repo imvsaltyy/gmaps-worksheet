@@ -1,10 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+//using System.Collections;
+//using System.Collections.Generic;
+//using UnityEngine;
 
 //public class Table2D : MonoBehaviour
 //{
-//    //public List<Ball2D> balls;
+//    public List<Ball2D> balls;
 
 //    private void Start()
 //    {
@@ -13,7 +13,7 @@ using UnityEngine;
 
 //    bool CheckBallCollision(Ball2D toCheck)
 //    {
-//        //for (int i = 0; i < balls.Count; i++)
+//        for (int i = 0; i < balls.Count; i++)
 //        {
 //            Ball2D ball = balls[1];
 
