@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class HMatrix2D
+public class HMatrix2D : MonoBehaviour
 {
     public float[,] Entries { get; set; } = new float[3, 3];
 
@@ -93,14 +93,14 @@ public class HMatrix2D
 
     //Note that the second argument is a HVector2D object
 
-    //public static HVector2D operator *(HMatrix2D left, HVector2D right)
-    //{
-    //    return new HVector2D
-    //    (
-    //        left.Entries[0, 0] * right.x, left.Entries[0, 1],
-    //        left.Entries[1, 0] * right.x, left.Entries[1, 1]
-    //    );
-    //}
+    public static HVector2D operator *(HMatrix2D left, HVector2D right)
+    {
+        return new HVector2D
+        (
+            left.Entries[0, 0] * right.x + left.Entries[0, 1] * right.y,
+            left.Entries[1, 0] * right.x + left.Entries[1, 1] * right.y
+        );
+    }
 
     //// Note that the second argument is a HMatrix2D object
     ////
