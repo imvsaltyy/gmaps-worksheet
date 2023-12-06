@@ -97,34 +97,75 @@ public class HMatrix2D : MonoBehaviour
     {
         return new HVector2D
         (
-            left.Entries[0, 0] * right.x + left.Entries[0, 1] * right.y,
-            left.Entries[1, 0] * right.x + left.Entries[1, 1] * right.y
+            left.Entries[0, 0] * right.x + left.Entries[0, 1] * right.y + left.Entries[0, 2],
+            left.Entries[1, 0] * right.x + left.Entries[1, 1] * right.y + left.Entries[1, 2]
         );
     }
 
-    //// Note that the second argument is a HMatrix2D object
-    ////
-    //public static HMatrix2D operator *(HMatrix2D left, HMatrix2D right)
-    //{
-    //    return new HMatrix2D
-    //    (
-    //        /* 
-    //            00 01 02    00 xx xx
-    //            xx xx xx    10 xx xx
-    //            xx xx xx    20 xx xx
-    //            */
-    //        left.Entries[0, 0] * right.Entries[0, 0] + left.Entries[0, 1] * right.Entries[1, 0] + left.Entries[0, 2] * right.Entries[2, 0],
+    // Note that the second argument is a HMatrix2D object
 
-    //        /* 
-    //            00 01 02    xx 01 xx
-    //            xx xx xx    xx 11 xx
-    //            xx xx xx    xx 21 xx
-    //            */
-    //        left.Entries[0, 0] * right.Entries[0, 1] + left.Entries[0, 1] * right.Entries[1, 1] + left.Entries[0, 2] * right.Entries[2, 1],
+    public static HMatrix2D operator *(HMatrix2D left, HMatrix2D right)
+    {
+        return new HMatrix2D
+        (
+            /* 
+                00 01 02    00 xx xx
+                xx xx xx    10 xx xx
+                xx xx xx    20 xx xx
+                */
+            left.Entries[0, 0] * right.Entries[0, 0] + left.Entries[0, 1] * right.Entries[1, 0] + left.Entries[0, 2] * right.Entries[2, 0],
 
-    //    // and so on for another 7 entries
-    //);
-    //}
+            /* 
+                00 01 02    xx 01 xx
+                xx xx xx    xx 11 xx
+                xx xx xx    xx 21 xx
+                */
+            left.Entries[0, 0] * right.Entries[0, 1] + left.Entries[0, 1] * right.Entries[1, 1] + left.Entries[0, 2] * right.Entries[2, 1],
+            /* 
+                00 01 02    xx xx 02
+                xx xx xx    xx xx 12
+                xx xx xx    xx xx 22
+                */
+            left.Entries[0, 0] * right.Entries[0, 2] + left.Entries[0, 1] * right.Entries[1, 2] + left.Entries[0, 2] * right.Entries[2, 2],
+             /* 
+                 xx xx xx    00 xx xx
+                 10 11 12    10 xx xx
+                 xx xx xx    20 xx xx
+                 */
+             left.Entries[1, 0] * right.Entries[0, 0] + left.Entries[1, 1] * right.Entries[1, 0] + left.Entries[1, 2] * right.Entries[2, 0],
+             /* 
+                 xx xx xx    xx 01 xx
+                 10 11 12    xx 11 xx
+                 xx xx xx    xx 21 xx
+                 */
+             left.Entries[1, 0] * right.Entries[0, 1] + left.Entries[1, 1] * right.Entries[1, 1] + left.Entries[1, 2] * right.Entries[2, 1],
+             /* 
+                 xx xx xx    xx xx 02
+                 10 11 12    xx xx 12
+                 xx xx xx    xx xx 22
+                 */
+             left.Entries[1, 0] * right.Entries[0, 2] + left.Entries[1, 1] * right.Entries[1, 2] + left.Entries[1, 2] * right.Entries[2, 2],
+             /* 
+                 xx xx xx    00 xx xx
+                 xx xx xx    10 xx xx
+                 20 21 22    20 xx xx
+                 */
+             left.Entries[2, 0] * right.Entries[0, 0] + left.Entries[2, 1] * right.Entries[1, 0] + left.Entries[2, 2] * right.Entries[2, 0],
+             /* 
+                 xx xx xx    xx 01 xx
+                 xx xx xx    xx 11 xx
+                 20 21 22    xx 21 xx
+                 */
+             left.Entries[2, 0] * right.Entries[0, 1] + left.Entries[2, 1] * right.Entries[1, 1] + left.Entries[2, 2] * right.Entries[2, 1],
+             /* 
+                 xx xx xx    xx xx 02
+                 xx xx xx    xx xx 12
+                 20 21 22    xx xx 22
+                 */
+             left.Entries[2, 0] * right.Entries[0, 2] + left.Entries[2, 1] * right.Entries[1, 2] + left.Entries[2, 2] * right.Entries[2, 2]
+        // and so on for another 7 entries
+    );
+    }
 
     public static bool operator ==(HMatrix2D left, HMatrix2D right)
     {
@@ -190,12 +231,23 @@ public class HMatrix2D : MonoBehaviour
 
     public void setTranslationMat(float transX, float transY)
     {
-        // your code here
+        SetIdentity();
+        Entries[0, 2] = transX;
+        Entries[1, 2] = transY;
     }
 
     public void setRotationMat(float rotDeg)
     {
-        // your code here
+        SetIdentity();
+        float rad = rotDeg * Mathf.Deg2Rad;
+        /* 
+          00 01
+          10 11
+          */
+        Entries[0, 0] = Mathf.Cos(rad);
+        Entries[0, 1] = -Mathf.Sin(rad);
+        Entries[1, 0] = Mathf.Sin(rad);
+        Entries[1, 1] = Mathf.Cos(rad);
     }
 
     public void setScalingMat(float scaleX, float scaleY)
