@@ -9,7 +9,7 @@ public class HMatrix2D : MonoBehaviour
 
     public HMatrix2D()
     {
-        
+        SetIdentity();
     }
 
     public HMatrix2D(float[,] multiArray)
@@ -97,6 +97,11 @@ public class HMatrix2D : MonoBehaviour
     {
         return new HVector2D
         (
+            /* 
+               00 01 02    x 
+               10 11 12    y 
+                           
+               */
             left.Entries[0, 0] * right.x + left.Entries[0, 1] * right.y + left.Entries[0, 2],
             left.Entries[1, 0] * right.x + left.Entries[1, 1] * right.y + left.Entries[1, 2]
         );
