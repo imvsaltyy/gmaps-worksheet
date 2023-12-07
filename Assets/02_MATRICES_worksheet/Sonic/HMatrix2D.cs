@@ -5,13 +5,18 @@ using UnityEngine.UIElements;
 
 public class HMatrix2D : MonoBehaviour
 {
+    //to encapsulate the matrix entries
+    //entries is a propetry, get = returns the value, set = gives a value to entries
+    //initialise a 3x3 matrix
     public float[,] Entries { get; set; } = new float[3, 3];
 
     public HMatrix2D()
     {
+        //initialise the identity matrix (set the values of the entries array)
         SetIdentity();
     }
 
+    //
     public HMatrix2D(float[,] multiArray)
     {
         for (int y = 0; y < 3; y++)
@@ -210,26 +215,42 @@ public class HMatrix2D : MonoBehaviour
     //    return // your code here
     //}
 
+    //for resetting the matrix
     public void SetIdentity()
     {
+        //COMMENTED OUT
+        //matrix order = rows x columns
+        //different rows are arranged vertically in a matrix, y to represent
+        //loop 3 times => 3x3 matrix (no. of rows in the entries array is 3)
         //for(int y = 0; y < 3; y++)
         //{
+              //different columns are arranged horizontally in a matrix, x to represent
+              //no. of columns in the entries array is 3
         //    for(int x = 0; x < 3; x++)
         //    {
+                  //checking whether the current x value is the same as the current y value
         //        if (x == y)
         //        {
+                      //true => sets the value at that position (eg. [0,0]) to 1
+                      //the main diagonal elements in a identity matrix is 1
         //            Entries[y,x]= 1;
         //        }
+                  //not the same
         //        else
         //        {
+                      //not needed since elements are initialised to 0 when declaring an array
+                      //sets the value at that position to 0
         //            Entries[y,x] = 0;
         //        }
         //    }
         //}
 
         //ternary operator
+        //for loops for both rows and columns
         for (int y = 0; y < 3; y++)
             for (int x = 0; x < 3; x++)
+                //TAKEN FROM TUTORIAL: [condition] ? [code to be run if condition is true] : [code to be run if condition is false];
+                //if the value of x and y is same in the entries matrix, the entries matrix element = 1, if not would be 0
                 Entries[y, x] = x == y ? 1 : 0;
 
     }
@@ -241,9 +262,12 @@ public class HMatrix2D : MonoBehaviour
         Entries[1, 2] = transY;
     }
 
+    //rotation
     public void setRotationMat(float rotDeg)
     {
+        //
         SetIdentity();
+        //
         float rad = rotDeg * Mathf.Deg2Rad;
         /* 
           00 01

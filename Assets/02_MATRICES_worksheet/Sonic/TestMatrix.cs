@@ -9,8 +9,16 @@ public class TestMatrix : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //set the mat variable to the identity matrix
         mat.SetIdentity();
+        //print out the matrix (should look like this:)
+        /* 
+          1 0 0
+          0 1 0
+          0 0 1
+        */
         mat.Print();
+
         Question2();
     }
 
