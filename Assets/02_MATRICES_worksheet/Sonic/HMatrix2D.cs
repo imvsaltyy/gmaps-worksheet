@@ -10,15 +10,17 @@ public class HMatrix2D : MonoBehaviour
     //initialise a 3x3 matrix
     public float[,] Entries { get; set; } = new float[3, 3];
 
+    //constructor 1 -> identity matrix 
     public HMatrix2D()
     {
         //initialise the identity matrix (set the values of the entries array)
         SetIdentity();
     }
 
-    //
+    //constructor 2 -> uses a provided multiarray
     public HMatrix2D(float[,] multiArray)
     {
+        //for loops for each rows and columns
         for (int y = 0; y < 3; y++)
             for (int x = 0; x < 3; x++)
             {
@@ -27,17 +29,19 @@ public class HMatrix2D : MonoBehaviour
             }         
     }
 
+    //constructor -> for individual elements in the 3x3 matrix
     public HMatrix2D(float m00, float m01, float m02,
-             float m10, float m11, float m12,
-             float m20, float m21, float m22)
+                    float m10, float m11, float m12,
+                    float m20, float m21, float m22)
     {
-        // First row
+        /*
+            00 01 02
+            10 11 12
+            20 21 22
+        */
+        //setting each variable to the corresponding element in the matrix
         Entries[0, 0] = m00;
-
-        // Second row
         Entries[0, 1] = m01;
-
-        // Third row
         Entries[0, 2] = m02;
 
         Entries[1, 0] = m10;
@@ -48,17 +52,21 @@ public class HMatrix2D : MonoBehaviour
         Entries[2, 1] = m21;
         Entries[2, 2] = m22;
 
-        //shld be 9 rows
+        //shld be 9 entries for a 3x3 matrix
     }
 
+    //addition for matrix, parameters are the left matrix and right matrix
     public static HMatrix2D operator +(HMatrix2D left, HMatrix2D right)
     {
+        //new instance to store results of addition
         HMatrix2D result = new HMatrix2D();
 
+        //for loops for each rows and columns
         for (int y = 0; y < 3; y++)
         {
             for (int x = 0; x < 3; x++)
             {
+                //each result element is the addition of left and right element
                 result.Entries[y, x] = left.Entries[y, x] + right.Entries[y, x];
             }
         }
@@ -66,14 +74,18 @@ public class HMatrix2D : MonoBehaviour
         return result;
     }
 
+    //subtraction for matrix
     public static HMatrix2D operator -(HMatrix2D left, HMatrix2D right)
     {
+        //new instance to store results of substraction
         HMatrix2D result = new HMatrix2D();
 
+        //for loops for each rows and columns
         for (int y = 0; y< 3; y++)
         {
             for (int x = 0; x < 3; x++)
             {
+                //each result element is the substraction of left and right element
                 result.Entries[y, x] = left.Entries[y, x] - right.Entries[y, x];
             }
         }
@@ -81,14 +93,18 @@ public class HMatrix2D : MonoBehaviour
         return result;
     }
 
+    //multiplication with a scalar value (eg. 2)
     public static HMatrix2D operator *(HMatrix2D left, float scalar)
     {
+        //new instance to store results of scalar multiplication
         HMatrix2D result = new HMatrix2D();
 
+        //for loops for each rows and columns
         for (int y = 0; y < 3; y++)
         {
             for (int x = 0; x < 3; x++)
             {
+                //each left element is multiplied by the scalar for each result element
                 result.Entries[y, x] = left.Entries[y, x] * scalar;
             }
         }
@@ -97,9 +113,10 @@ public class HMatrix2D : MonoBehaviour
     }
 
     //Note that the second argument is a HVector2D object
-
+    //multiplication with a vector (x,y)
     public static HVector2D operator *(HMatrix2D left, HVector2D right)
     {
+
         return new HVector2D
         (
             /* 
@@ -107,13 +124,15 @@ public class HMatrix2D : MonoBehaviour
                10 11 12    y 
                            
                */
+            //since it's rows x columns, 00 will multiply with x, 01 will multiply with y, 02 will multiply with 1
+            //multiplied by 1 => homogenous coordinate to ensure matrix multiplication
             left.Entries[0, 0] * right.x + left.Entries[0, 1] * right.y + left.Entries[0, 2],
             left.Entries[1, 0] * right.x + left.Entries[1, 1] * right.y + left.Entries[1, 2]
         );
     }
 
     // Note that the second argument is a HMatrix2D object
-
+    //multiplication for matrices
     public static HMatrix2D operator *(HMatrix2D left, HMatrix2D right)
     {
         return new HMatrix2D
@@ -123,6 +142,8 @@ public class HMatrix2D : MonoBehaviour
                 xx xx xx    10 xx xx
                 xx xx xx    20 xx xx
                 */
+            //since it's rows x columns, the 1st row of the left entries will multiply with the 1st column of the right entries,
+            //where entries are multiplied from left to right, up to down
             left.Entries[0, 0] * right.Entries[0, 0] + left.Entries[0, 1] * right.Entries[1, 0] + left.Entries[0, 2] * right.Entries[2, 0],
 
             /* 
@@ -130,66 +151,80 @@ public class HMatrix2D : MonoBehaviour
                 xx xx xx    xx 11 xx
                 xx xx xx    xx 21 xx
                 */
+            //1st row is then multiplied with the 2nd column
             left.Entries[0, 0] * right.Entries[0, 1] + left.Entries[0, 1] * right.Entries[1, 1] + left.Entries[0, 2] * right.Entries[2, 1],
             /* 
                 00 01 02    xx xx 02
                 xx xx xx    xx xx 12
                 xx xx xx    xx xx 22
                 */
+            //1st row is then multiplied with the 3rd column
             left.Entries[0, 0] * right.Entries[0, 2] + left.Entries[0, 1] * right.Entries[1, 2] + left.Entries[0, 2] * right.Entries[2, 2],
              /* 
                  xx xx xx    00 xx xx
                  10 11 12    10 xx xx
                  xx xx xx    20 xx xx
                  */
+             //2nd row is then multiplied with the 1st column
              left.Entries[1, 0] * right.Entries[0, 0] + left.Entries[1, 1] * right.Entries[1, 0] + left.Entries[1, 2] * right.Entries[2, 0],
              /* 
                  xx xx xx    xx 01 xx
                  10 11 12    xx 11 xx
                  xx xx xx    xx 21 xx
                  */
+             //2nd row is then multiplied with the 2nd column
              left.Entries[1, 0] * right.Entries[0, 1] + left.Entries[1, 1] * right.Entries[1, 1] + left.Entries[1, 2] * right.Entries[2, 1],
              /* 
                  xx xx xx    xx xx 02
                  10 11 12    xx xx 12
                  xx xx xx    xx xx 22
                  */
+             //2nd row is then multiplied with the 3rd column
              left.Entries[1, 0] * right.Entries[0, 2] + left.Entries[1, 1] * right.Entries[1, 2] + left.Entries[1, 2] * right.Entries[2, 2],
              /* 
                  xx xx xx    00 xx xx
                  xx xx xx    10 xx xx
                  20 21 22    20 xx xx
                  */
+             //3rd row is then multiplied with the 1st column
              left.Entries[2, 0] * right.Entries[0, 0] + left.Entries[2, 1] * right.Entries[1, 0] + left.Entries[2, 2] * right.Entries[2, 0],
              /* 
                  xx xx xx    xx 01 xx
                  xx xx xx    xx 11 xx
                  20 21 22    xx 21 xx
                  */
+             //3rd row is then multiplied with the 2nd column
              left.Entries[2, 0] * right.Entries[0, 1] + left.Entries[2, 1] * right.Entries[1, 1] + left.Entries[2, 2] * right.Entries[2, 1],
              /* 
                  xx xx xx    xx xx 02
                  xx xx xx    xx xx 12
                  20 21 22    xx xx 22
                  */
+             //3rd row is then multiplied with the 3rd column
              left.Entries[2, 0] * right.Entries[0, 2] + left.Entries[2, 1] * right.Entries[1, 2] + left.Entries[2, 2] * right.Entries[2, 2]
-        // and so on for another 7 entries
+        
     );
     }
 
+    //checking for equality
     public static bool operator ==(HMatrix2D left, HMatrix2D right)
     {
+        //for loops for each rows and columns
         for (int y = 0; y < 3; y++)
             for (int x = 0; x < 3; x++)
+                //checking: left entries element not equal to the right entries element
                 if (left.Entries[y, x] != right.Entries[y, x])
                     return false;
         return true;
     }
 
+    //checking for inequality
     public static bool operator !=(HMatrix2D left, HMatrix2D right)
     {
+        //for loops for each rows and columns
         for (int y = 0; y < 3; y++)
             for (int x = 0; x < 3; x++)
+                //checking: left entries element equal to the right entries element
                 if (left.Entries[y, x] == right.Entries[y, x])
                     return false;
         return true;
@@ -255,9 +290,17 @@ public class HMatrix2D : MonoBehaviour
 
     }
 
+    //translation
     public void setTranslationMat(float transX, float transY)
     {
+        //to reset the matrix to identity
         SetIdentity();
+        /* 
+          1 0 x
+          0 1 y
+          0 0 1
+          */
+        //2D translate transformation
         Entries[0, 2] = transX;
         Entries[1, 2] = transY;
     }
@@ -265,14 +308,16 @@ public class HMatrix2D : MonoBehaviour
     //rotation
     public void setRotationMat(float rotDeg)
     {
-        //
+        //to reset the matrix to identity
         SetIdentity();
-        //
+        //change degrees to radians
+        //Unity expects the input for Mathf to be in radians
         float rad = rotDeg * Mathf.Deg2Rad;
         /* 
           00 01
           10 11
           */
+        //2D rotation transformation
         Entries[0, 0] = Mathf.Cos(rad);
         Entries[0, 1] = -Mathf.Sin(rad);
         Entries[1, 0] = Mathf.Sin(rad);
